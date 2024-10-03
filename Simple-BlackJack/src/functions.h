@@ -9,19 +9,19 @@
  Version  2024-09-30
  -------------------------------------
  */
-#include "functions.h"
+#ifndef FUNCTIONS_H_
+#define FUNCTIONS_H_
 
 #include <stdio.h>
 #include <stdlib.h>
 
-//function to get the bet amount
-int bet(int cash) {
-	int bet = 0;
-	printf("How much would you like to bet? ");
-	scanf("%d", &bet);
-	if (bet > cash) {
-		printf("You don't have that much money!\n");
-		return -1;
-	}
-	return bet;
-}
+// Constants.
+
+// Prototypes.
+
+//gets the players bet amount
+//@param cash - amount of cash player has
+//@return remaining - cash
+int bet(int cash);
+
+#endif /* FUNCTIONS_H_ */
