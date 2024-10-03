@@ -12,16 +12,16 @@
 #ifndef FUNCTIONS_H_
 #define FUNCTIONS_H_
 
+#include <stdio.h>
+#include <stdlib.h>
+
 // Constants.
 
 // Prototypes.
 
-/**
- * round play function
- *
- * @param cash - amount of cash player has
- * @return remaining - cash
- */
+//gets the players bet amount
+//@param cash - amount of cash player has
+//@return remaining - cash
 int bet(int cash);
 
 #endif /* FUNCTIONS_H_ */

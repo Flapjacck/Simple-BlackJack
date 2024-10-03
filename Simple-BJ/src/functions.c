@@ -14,8 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Your code here
-
+//function to get the bet amount
 int bet(int cash) {
 	int bet = 0;
 	printf("How much would you like to bet? ");
