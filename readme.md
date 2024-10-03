@@ -1,0 +1,1 @@
+![Simple-BlackJack](https://socialify.git.ci/Flapjacck/Simple-BlackJack/image?description=1&descriptionEditable=Simple%20game%20of%20blackjack%20made%20in%20the%20C%20programming%20language&font=Raleway&language=1&name=1&pattern=Brick%20Wall&theme=Dark)
