@@ -25,32 +25,33 @@ typedef struct {
 	int value; //value of card
 } Card;
 
+typedef struct {
+	Card *cards;
+	int size;
+} Deck;
+
 // Prototypes
 
 // Function to initialize multiple decks of cards
-// decks: array to hold the cards
+// deck: array to hold the cards
 // num_decks: number of decks to initialize
-void init_decks(Card decks[], int num_decks);
+void init_decks(Deck *deck, int num_decks);
 
 // Function to print a deck of cards
-// deck: array of cards to print
-// deck_size: number of cards in the deck
-void print_deck(const Card deck[], int deck_size);
+// deck: array the holds the cards
+void print_deck(const Deck *deck);
 
 // Function to shuffle a deck of cards
 // deck: array of cards to shuffle
-// deck_size: number of cards in the deck
-void shuffle_deck(Card deck[], int deck_size);
+void shuffle_deck(Deck *deck);
 
 //function too add a cut card randomly between half deck_size and full deck_size to the deck with a value of NULL
 // deck: array of cards to shuffle
-// deck_size: number of cards in the deck
-void cut_card(Card deck[], int deck_size);
+void cut_card(Deck *deck);
 
-// Function to get a card to deal, removes one from deck_size
+// Function to get a card to deal, removes one from deck_size and checks for cut card
 // deck: array of cards to print
-// deck_size: number of cards in deck
-Card deal_card(Card deck[], int deck_size);
+Card deal_card(Deck *deck);
 
 // Function to print card
 // card: the card to print

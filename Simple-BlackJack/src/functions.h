@@ -14,7 +14,21 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "deck.h"
 
+//structures
+typedef struct {
+	Card *cards; //cards in hand
+	int num_cards; //number of cards in hand
+	int value; //value of cards in hand
+} Player_Hand;
+
+typedef struct {
+	Card *cards; //cards in hand
+	Card *hidden_card; //second card dealt to dealer is hidden
+	int num_cards; //number of cards in hand
+	int value; //value of cards in hand
+} Dealer_Hand;
 // Constants.
 
 // Prototypes.
@@ -26,5 +40,10 @@ int game_start();
 //param cash - amount of cash player has
 //return remaining - cash
 int bet(int cash);
+
+//deals a card to the player than to the dealer thats hidden, then another to the player, and finally one to the dealer.
+//add the cards and value to the Player_Hand and Dealer_Hand respectively
+void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
+		Dealer_Hand *dealer_hand);
 
 #endif /* FUNCTIONS_H_ */
