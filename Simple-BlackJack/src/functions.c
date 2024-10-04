@@ -80,3 +80,21 @@ void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 			second_dealer_card.suit);
 
 }
+
+//function to check if the player wants insurance
+int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
+	char input;
+	printf("Would you like insurance? (y/n): ");
+	scanf(" %c", &input);
+	if (input == 'y') {
+		if (dealer_hand->cards[0].value == 10) {
+			printf("Dealer has a 10, insurance pays 2:1\n");
+			return bet;
+		} else {
+			printf("Dealer does not have a 10, insurance lost\n");
+			return 0;
+		}
+	} else {
+		return 0;
+	}
+}

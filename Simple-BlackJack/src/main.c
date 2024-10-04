@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
 	printf("Enter the number of decks to use: ");
 	scanf("%d", &num_decks);
 
+	// Initialize, shuffle deck and place cut card
 	Deck deck;
 	init_decks(&deck, num_decks);
 	shuffle_deck(&deck);

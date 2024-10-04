@@ -14,6 +14,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "deck.h"
 
 //structures
@@ -45,5 +46,10 @@ int bet(int cash);
 //add the cards and value to the Player_Hand and Dealer_Hand respectively
 void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 		Dealer_Hand *dealer_hand);
+
+//offers the player to buy insurance when dealer is showing a ace, which is same amount as the bet.
+//if the dealer has a 10 and the player bought insurance then they receive their bet * 2.
+//if insurance not bought player losses the hand
+int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand);
 
 #endif /* FUNCTIONS_H_ */
