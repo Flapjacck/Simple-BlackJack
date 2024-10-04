@@ -66,7 +66,7 @@ void cut_card(Deck *deck) {
 	srand(time(NULL));
 
 	// Generate a random index to place the cut card
-	int cut_index = rand() % (deck->size - ((deck->size - 3) / 2) + 1)
+	int cut_index = rand() % ((deck->size - 4) - ((deck->size) / 2) + 1)
 			+ (deck->size / 2);
 
 	// Create a cut card with NULL values

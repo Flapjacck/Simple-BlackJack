@@ -82,17 +82,18 @@ void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 }
 
 //function to check if the player wants insurance
-int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
+int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand,
+		Deck *deck) {
 	char input;
 	printf("Would you like insurance? (y/n): ");
 	scanf(" %c", &input);
 	if (input == 'y') {
 		if (dealer_hand->cards[0].value == 10) {
 			printf("Dealer has a 10, insurance pays 2:1\n");
-			return bet;
+			return bet * 2;
 		} else {
 			printf("Dealer does not have a 10, insurance lost\n");
-			return 0;
+			return bet;
 		}
 	} else {
 		return 0;
@@ -100,7 +101,7 @@ int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
 }
 
 //function that allows the player to handle turn
-void choose() {
+Player_Hand player_choice(Deck *deck, Player_Hand *player_hand) {
 
 	char choosing = '\0';
 	while (choosing == '\0') {
@@ -109,8 +110,24 @@ void choose() {
 
 		if (choosing == 'h') {
 			// Handle 'h'
+			card_to_phand(deck, player_hand);\
+			if (player_hand->value > 21) {
+				printf("Player busts!\n");
+				return *player_hand;
+			}
+
+			while (player_hand->value < 21) {
+				card_to_phand(deck, player_hand);
+				if (player_hand->value > 21) {
+					printf("Player busts!\n");
+					return *player_hand;
+				}
+				return *player_hand;
+			}
+
 		} else if (choosing == 's') {
 			// Handle 's'
+			return *player_hand;
 		} else if (choosing == 'd') {
 			// Handle 'd'
 		} else if (choosing == 'l') {
@@ -122,3 +139,30 @@ void choose() {
 	}
 
 }
+
+Dealer_Hand dealer_choice(Deck *deck, Dealer_Hand *dealer_hand) {
+	while (dealer_hand->value < 17) {
+		Card dealt_card = deal_card(deck);
+		dealer_hand->value += dealt_card.value;
+		dealer_hand->num_cards++;
+		dealer_hand->cards[dealer_hand->num_cards] = dealt_card;
+		printf("Dealt dealer %s of %s...\n", dealt_card.face, dealt_card.suit);
+		printf("Dealer's total: %d\n", dealer_hand->value);
+		if (dealer_hand->value > 21) {
+			printf("Dealer busts!\n");
+			break;
+		}
+	}
+	return *dealer_hand;
+}
+
+Player_Hand card_to_phand(Deck *deck, Player_Hand *player_hand) {
+	Card dealt_card = deal_card(deck);
+	player_hand->value += dealt_card.value;
+	player_hand->num_cards++;
+	player_hand->cards[player_hand->num_cards] = dealt_card;
+	printf("Dealt player %s of %s...\n", dealt_card.face, dealt_card.suit);
+	printf("Player's total: %d\n", player_hand->value);
+	return *player_hand;
+}
+
