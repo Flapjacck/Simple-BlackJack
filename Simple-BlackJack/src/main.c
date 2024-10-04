@@ -35,9 +35,15 @@ int main(int argc, char *argv[]) {
 
 	init_decks(decks, num_decks);
 	shuffle_deck(decks, num_decks * 52);
-	printf("Multiple decks initialized and shuffled:\n");
+	printf("**%d deck(s) initialized and shuffled**\n", num_decks);
+	cut_card(decks, num_decks * 52);
 	print_deck(decks, num_decks * 52);
 
+	while (num_decks * 52 > 0) {
+		Card dealt_card = deal_card(decks, num_decks * 52);
+		printf("Dealt card: %s of %s (Value: %d)\n", dealt_card.face,
+				dealt_card.suit, dealt_card.value);
+	}
 	while (cash > 0) {
 		//bet
 		int bet_amount = bet(cash);

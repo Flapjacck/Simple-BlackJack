@@ -68,20 +68,42 @@ void shuffle_deck(Card deck[], int deck_size) {
 	}
 }
 
+void cut_card(Card deck[], int deck_size) {
+	// Seed the random number generator
+	srand(time(NULL));
+
+	// Generate a random index to place the cut card
+	int cut_index = rand() % (deck_size - (deck_size / 2) + 1)
+			+ (deck_size / 2);
+
+	// Create a cut card with NULL values
+	Card cut_card = { NULL, NULL, 0 };
+
+	// Place the cut card at the random index
+	deck[cut_index] = cut_card;
+
+	// Print the index of the cut card
+	printf("**Cut card placed at index %d**\n", cut_index);
+}
+
 Card deal_card(Card deck[], int deck_size) {
 
-	//Gets the front card to deal
+	// Gets the front card to deal
 	Card dealt_card = deck[0];
 
-	//Checks if deck is empty, -1 from 'deck_size'
-	if (deck_size > 0) {
-		for (int i = 1; i < deck_size; i++) {
-			deck[i - 1] = deck[i];
-		}
-		(deck_size)--;
-	} else {
-		printf("Whoops, there are no more cards left in the shoe!!!");
+	// Checks if deck is empty, -1 from 'deck_size'
+	if (dealt_card.face == NULL) {
+		printf("Cut card reached!\n");
+		exit(0);
 	}
+
+	// Shift all cards one position forward
+	for (int i = 1; i < deck_size; i++) {
+		deck[i - 1] = deck[i];
+	}
+
+	(deck_size)--;
+	printf("Deck size after dealing a card: %d\n", deck_size);
 
 	return dealt_card;
 }
