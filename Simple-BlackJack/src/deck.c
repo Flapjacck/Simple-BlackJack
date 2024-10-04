@@ -67,3 +67,29 @@ void shuffle_deck(Card deck[], int deck_size) {
 		deck[j] = temp;
 	}
 }
+
+Card deal_card(Card deck[], int deck_size) {
+
+	//Gets the front card to deal
+	Card dealt_card = deck[0];
+
+	//Checks if deck is empty, -1 from 'deck_size'
+	if (deck_size > 0) {
+		for (int i = 1; i < deck_size; i++) {
+			deck[i - 1] = deck[i];
+		}
+		(deck_size)--;
+	} else {
+		printf("Whoops, there are no more cards left in the shoe!!!");
+	}
+
+	return dealt_card;
+}
+
+void print_card(Card card) {
+
+	//prints card
+	printf("%s of %s (Value: %d)\n", card.face, card.suit, card.value);
+
+}
+

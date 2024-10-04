@@ -41,4 +41,13 @@ void print_deck(const Card deck[], int deck_size);
 // deck_size: number of cards in the deck
 void shuffle_deck(Card deck[], int deck_size);
 
+// Function to get a card to deal, removes one from deck_size
+// deck: array of cards to print
+// deck_size: number of cards in deck
+Card deal_card(Card deck[], int deck_size);
+
+// Function to print card
+// card: the card to print
+void print_card(const Card card);
+
 #endif /* DECK_H_ */
