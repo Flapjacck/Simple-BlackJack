@@ -24,15 +24,19 @@ Dealer_Hand dealer_hand;
 int main(int argc, char *argv[]) {
 	setbuf(stdout, NULL);
 
+<<<<<<< HEAD
 	//game start
 	cash = game_start();
 	printf("You have $%d\n", cash);
 
 	// User input for number of decks
+=======
+>>>>>>> 031d78f (Push to Pull)
 	int num_decks = 0;
 	printf("Enter the number of decks to use: ");
 	scanf("%d", &num_decks);
 
+<<<<<<< HEAD
 	// Initialize, shuffle deck and place cut card
 	Deck deck;
 	init_decks(&deck, num_decks);
@@ -56,6 +60,12 @@ int main(int argc, char *argv[]) {
 	 dealt_card.suit, dealt_card.value);
 	 }
 	 */
+=======
+	init_decks(decks, num_decks);
+	Card temp = deal_card(decks, num_decks);
+	print_card(temp);
+
+>>>>>>> 031d78f (Push to Pull)
 	return 0;
 }
 
