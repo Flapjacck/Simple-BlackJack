@@ -52,4 +52,9 @@ void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 //if insurance not bought player losses the hand
 int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand);
 
+//offers the player the choice to hit, stand, double, or split
+//each choice in its own function
+//no return(for now?)
+void choose();
+
 #endif /* FUNCTIONS_H_ */

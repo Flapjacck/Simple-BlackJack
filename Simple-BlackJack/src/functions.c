@@ -18,7 +18,7 @@
 int game_start() {
 	int cash = 0;
 	printf("Welcome to Simple Blackjack!\n");
-	printf("How much cash would you like to start with?:");
+	printf("How much cash would you like to start with?: ");
 	scanf("%d", &cash);
 	return cash;
 }
@@ -26,10 +26,10 @@ int game_start() {
 //function to get the bet amount
 int bet(int cash) {
 	int bet = 0;
-	printf("How much would you like to bet?:");
+	printf("How much would you like to bet?: ");
 	scanf("%d", &bet);
 	if (bet > cash) {
-		printf("You don't have that much money!\n");
+		printf("You don't have that much money, you may only bet %d!\n", cash);
 		return -1;
 	}
 	return bet;
@@ -97,4 +97,28 @@ int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
 	} else {
 		return 0;
 	}
+}
+
+//function that allows the player to handle turn
+void choose() {
+
+	char choosing = '\0';
+	while (choosing == '\0') {
+		printf("Hit(h) / Stand(s) / Double(d) / Split(l): ");
+		scanf(" %c", &choosing);
+
+		if (choosing == 'h') {
+			// Handle 'h'
+		} else if (choosing == 's') {
+			// Handle 's'
+		} else if (choosing == 'd') {
+			// Handle 'd'
+		} else if (choosing == 'l') {
+			// Handle 'l'
+		} else {
+			printf("You Entered Something Incorrectly, try again -->\n");
+			choosing = '\0';
+		}
+	}
+
 }
