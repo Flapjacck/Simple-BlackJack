@@ -44,7 +44,6 @@ void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 
 	// Initialize the dealer's hand
 	dealer_hand->cards = malloc(2 * sizeof(Card));
-	dealer_hand->hidden_card = malloc(2 * sizeof(Card));
 	dealer_hand->num_cards = 0;
 	dealer_hand->value = 0;
 
@@ -58,7 +57,7 @@ void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 
 	// Deal the first card to the dealer (hidden)
 	Card first_dealer_card = deal_card(deck);
-	dealer_hand->hidden_card[dealer_hand->num_cards] = first_dealer_card;
+	dealer_hand->cards[dealer_hand->num_cards] = first_dealer_card;
 	dealer_hand->value += first_dealer_card.value;
 	dealer_hand->num_cards++;
 	printf("Dealt dealers hidden card...\n");
@@ -73,7 +72,7 @@ void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 
 	// Deal the second card to the dealer (visible)
 	Card second_dealer_card = deal_card(deck);
-	dealer_hand->cards[0] = second_dealer_card;
+	dealer_hand->cards[dealer_hand->num_cards] = second_dealer_card;
 	dealer_hand->value += second_dealer_card.value;
 	dealer_hand->num_cards++;
 	printf("Dealt dealer %s of %s...\n", second_dealer_card.face,
@@ -108,20 +107,22 @@ Player_Hand player_choice(Deck *deck, Player_Hand *player_hand) {
 		printf("Hit(h) / Stand(s) / Double(d) / Split(l): ");
 		scanf(" %c", &choosing);
 
-		if (choosing == 'h' && player_hand->value < 21) {
+		if (choosing == 'h') {
 			// Handle 'h'
 			card_to_phand(deck, player_hand);
 			if (player_hand->value > 21) {
 				printf("Player busts!\n");
-
+				player_hand->value = -1;
+				return *player_hand;
 			}
-			return *player_hand;
 		} else if (choosing == 's') {
 			// Handle 's'
+			printf("Player stands!\n");
+			player_hand->num_cards = -1;
 			return *player_hand;
-		} else if (choosing == 'd') {
+		} else if (choosing == 'd' && player_hand->num_cards == 2) {
 			// Handle 'd'
-		} else if (choosing == 'l') {
+		} else if (choosing == 'l' && player_hand->num_cards == 2) {
 			// Handle 'l'
 		} else {
 			printf("You Entered Something Incorrectly, try again -->\n");
@@ -131,7 +132,7 @@ Player_Hand player_choice(Deck *deck, Player_Hand *player_hand) {
 
 }
 
-Dealer_Hand dealer_choice(Deck *deck, Dealer_Hand *dealer_hand) {
+Dealer_Hand card_to_dhand(Deck *deck, Dealer_Hand *dealer_hand) {
 	while (dealer_hand->value < 17) {
 		Card dealt_card = deal_card(deck);
 		dealer_hand->value += dealt_card.value;
@@ -141,7 +142,8 @@ Dealer_Hand dealer_choice(Deck *deck, Dealer_Hand *dealer_hand) {
 		printf("Dealer's total: %d\n", dealer_hand->value);
 		if (dealer_hand->value > 21) {
 			printf("Dealer busts!\n");
-			break;
+			dealer_hand->value = -1;
+			return *dealer_hand;
 		}
 	}
 	return *dealer_hand;

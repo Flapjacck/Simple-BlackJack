@@ -26,7 +26,6 @@ typedef struct {
 
 typedef struct {
 	Card *cards; //cards in hand
-	Card *hidden_card; //second card dealt to dealer is hidden
 	int num_cards; //number of cards in hand
 	int value; //value of cards in hand
 } Dealer_Hand;
@@ -60,7 +59,7 @@ Player_Hand player_choice(Deck *deck, Player_Hand *player_hand);
 
 //deals cards to dealer till hand reaches 17-21 or busts
 //returns dealer hand
-Dealer_Hand dealer_choice(Deck *deck, Dealer_Hand *dealer_hand);
+Dealer_Hand card_to_dhand(Deck *deck, Dealer_Hand *dealer_hand);
 
 //deals a card to the players hand
 Player_Hand card_to_phand(Deck *deck, Player_Hand *player_hand);

@@ -61,10 +61,9 @@ int main(int argc, char *argv[]) {
 					player_hand.cards[1].face, player_hand.cards[1].suit,
 					player_hand.value);
 			printf("Dealer's visible card: %s of %s\n",
-					dealer_hand.cards[0].face, dealer_hand.cards[0].suit);
-
+					dealer_hand.cards[1].face, dealer_hand.cards[1].suit);
 			//run insurance function
-			if (dealer_hand.cards[0].value == 11) {
+			if (dealer_hand.cards[1].value == 11) {
 				insurance_bet = insurance(&deck, &player_hand, &dealer_hand,
 						bet_amount);
 				if (insurance_bet == 0) {
@@ -84,40 +83,47 @@ int main(int argc, char *argv[]) {
 				//run player function
 				player_choice(&deck, &player_hand);
 
-				//run dealer function
-				dealer_choice(&deck, &dealer_hand);
-
-				//Display the current value for player
-				printf("Player's hand: %d on Dealer's hand: %d",
-						player_hand.value, dealer_hand.value);
-
+				if (player_hand.value == -1) {
+					break;
+				} else if (player_hand.num_cards == -1) {
+					break;
+				}
 			}
-
+			//run dealer function
+			if (player_hand.num_cards == -1) {
+				printf("Dealer turns over his hidden card\n");
+				printf("%s of %s\nTotal: %d\n", dealer_hand.cards[0].face,
+						dealer_hand.cards[0].suit, dealer_hand.value);
+				while (dealer_hand.value != -1) {
+					card_to_dhand(&deck, &dealer_hand);
+				}
+			}
 		}
 
-		bet(cash);
+	}
 
-		deal_initial_cards(&deck, &player_hand, &dealer_hand);
+	bet(cash);
 
-		printf("Player's hand: %s of %s and %s of %s\nTotal: %d\n",
-				player_hand.cards[0].face, player_hand.cards[0].suit,
-				player_hand.cards[1].face, player_hand.cards[1].suit,
-				player_hand.value);
+	deal_initial_cards(&deck, &player_hand, &dealer_hand);
 
-		printf("Dealer's hand: %s of %s\nPossilble: %d\n",
-				dealer_hand.cards[0].face, dealer_hand.cards[0].suit,
-				dealer_hand.cards[1].value);
+	printf("Player's hand: %s of %s and %s of %s\nTotal: %d\n",
+			player_hand.cards[0].face, player_hand.cards[0].suit,
+			player_hand.cards[1].face, player_hand.cards[1].suit,
+			player_hand.value);
+
+	printf("Dealer's hand: %s of %s\nPossilble: %d\n",
+			dealer_hand.cards[0].face, dealer_hand.cards[0].suit,
+			dealer_hand.cards[1].value);
 
 //print_deck(&deck);
-		/*
-		 while (deck.size > 0) {
-		 Card dealt_card = deal_card(&deck);
-		 printf("Dealt card: %s of %s (Value: %d)\n", dealt_card.face,
-		 dealt_card.suit, dealt_card.value);
-		 }
-		 */
+	/*
+	 while (deck.size > 0) {
+	 Card dealt_card = deal_card(&deck);
+	 printf("Dealt card: %s of %s (Value: %d)\n", dealt_card.face,
+	 dealt_card.suit, dealt_card.value);
+	 }
+	 */
 
-		return 0;
-	}
+	return 0;
 }
 
