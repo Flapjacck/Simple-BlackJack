@@ -68,4 +68,8 @@ Player_Hand card_to_phand(Deck *deck, Player_Hand *player_hand);
 //checks to see who has higher value and returns value of win
 int win(int bet_amount, Player_Hand *player_hand, Dealer_Hand *dealer_hand);
 
+//clears the dealer and players cards, num_cards and value
+//takes player and dealers hand
+void clear_hands(Player_Hand *player_hand, Dealer_Hand *dealer_hand);
+
 #endif /* FUNCTIONS_H_ */

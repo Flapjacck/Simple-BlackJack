@@ -62,23 +62,24 @@ int main(int argc, char *argv[]) {
 					player_hand.value);
 			printf("Dealer's visible card: %s of %s\n",
 					dealer_hand.cards[1].face, dealer_hand.cards[1].suit);
+
+			//Temporarily set dealer's cards to 10 and 11
+			dealer_hand.cards[0].value = 6;
+			dealer_hand.cards[1].value = 11;
+			dealer_hand.value = 17;
+			printf("Dealer's hidden card: %d of %s\n",
+					dealer_hand.cards[1].value, dealer_hand.cards[0].suit);
+
 			//run insurance function
 			if (dealer_hand.cards[1].value == 11) {
-				insurance_bet = insurance(&deck, &player_hand, &dealer_hand,
-						bet_amount);
-				if (insurance_bet == 0) {
-				} else if (insurance_bet == bet_amount) {
-					printf("You lose your insurance bet!\n");
-					cash -= insurance_bet;
-					break;
-				} else {
-					printf("You win your insurance bet!\n");
-					cash += insurance_bet;
-					break;
-				}
+				cash -= (bet_amount / 2);
+				insurance_bet = insurance(bet_amount, &player_hand,
+						&dealer_hand, &deck);
+				cash += insurance_bet;
 			}
+
 			//run functions for player and dealer
-			while (player_hand.value < 21) {
+			while (player_hand.value < 21 && dealer_hand.value < 21) {
 
 				//run player function
 				player_choice(&deck, &player_hand);
@@ -94,44 +95,29 @@ int main(int argc, char *argv[]) {
 				printf("Dealer turns over his hidden card\n");
 				printf("%s of %s\nTotal: %d\n", dealer_hand.cards[0].face,
 						dealer_hand.cards[0].suit, dealer_hand.value);
-				while (dealer_hand.value != -1 || dealer_hand.value <= 17) {
+				while (dealer_hand.value < 17) {
 					card_to_dhand(&deck, &dealer_hand);
+					if (dealer_hand.value == -1) {
+						break;
+					}
 				}
 			}
+
 			//run win function
-			if (win(bet_amount, &player_hand, &dealer_hand) == 1) {
+			int win_result = win(bet_amount, &player_hand, &dealer_hand);
+			if (win_result == 1) {
 				cash += bet_amount * 2;
-			} else if (win(bet_amount, &player_hand, &dealer_hand) == -1) {
+			} else if (win_result == -1) {
 				//do nothing
 			} else {
 				cash += bet_amount;
 			}
 
 		}
-
+		//reset hands
+		clear_hands(&player_hand, &dealer_hand);
+		printf("You have $%d\n", cash);
 	}
-
-	bet(cash);
-
-	deal_initial_cards(&deck, &player_hand, &dealer_hand);
-
-	printf("Player's hand: %s of %s and %s of %s\nTotal: %d\n",
-			player_hand.cards[0].face, player_hand.cards[0].suit,
-			player_hand.cards[1].face, player_hand.cards[1].suit,
-			player_hand.value);
-
-	printf("Dealer's hand: %s of %s\nPossilble: %d\n",
-			dealer_hand.cards[0].face, dealer_hand.cards[0].suit,
-			dealer_hand.cards[1].value);
-
-//print_deck(&deck);
-	/*
-	 while (deck.size > 0) {
-	 Card dealt_card = deal_card(&deck);
-	 printf("Dealt card: %s of %s (Value: %d)\n", dealt_card.face,
-	 dealt_card.suit, dealt_card.value);
-	 }
-	 */
 
 	return 0;
 }

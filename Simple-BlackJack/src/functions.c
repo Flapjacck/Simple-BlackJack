@@ -26,11 +26,14 @@ int game_start() {
 //function to get the bet amount
 int bet(int cash) {
 	int bet = 0;
-	printf("How much would you like to bet?: ");
-	scanf("%d", &bet);
-	if (bet > cash) {
-		printf("You don't have that much money, you may only bet %d!\n", cash);
-		return -1;
+	while (bet <= 0 || bet > cash) {
+		printf("Enter your bet amount: ");
+		scanf("%d", &bet);
+		if (bet <= 0) {
+			printf("You must bet more than $0\n");
+		} else if (bet > cash) {
+			printf("You cannot bet more than you have\n");
+		}
 	}
 	return bet;
 }
@@ -84,18 +87,20 @@ void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand,
 		Deck *deck) {
 	char input;
+	int ibet = bet / 2;
 	printf("Would you like insurance? (y/n): ");
 	scanf(" %c", &input);
 	if (input == 'y') {
-		if (dealer_hand->cards[0].value == 10) {
-			printf("Dealer has a 10, insurance pays 2:1\n");
-			return bet * 2;
+		if (dealer_hand->value == 21) {
+			printf("Dealer has blackjack! You win insurance! \n");
+			return ibet * 3;
 		} else {
-			printf("Dealer does not have a 10, insurance lost\n");
-			return bet;
+			printf("Dealer does not have blackjack! \n");
+			return 0;
 		}
 	} else {
-		return 0;
+		return ibet;
+
 	}
 }
 
@@ -121,14 +126,16 @@ Player_Hand player_choice(Deck *deck, Player_Hand *player_hand) {
 			return *player_hand;
 		} else if (choosing == 'd' && player_hand->num_cards == 2) {
 			// Handle 'd'
+			return *player_hand;
 		} else if (choosing == 'l' && player_hand->num_cards == 2) {
 			// Handle 'l'
+			return *player_hand;
 		} else {
 			printf("You Entered Something Incorrectly, try again -->\n");
 			choosing = '\0';
 		}
 	}
-
+	return *player_hand;
 }
 
 Dealer_Hand card_to_dhand(Deck *deck, Dealer_Hand *dealer_hand) {
@@ -141,7 +148,6 @@ Dealer_Hand card_to_dhand(Deck *deck, Dealer_Hand *dealer_hand) {
 	if (dealer_hand->value > 21) {
 		printf("Dealer busts!\n");
 		dealer_hand->value = -1;
-		return *dealer_hand;
 	}
 	return *dealer_hand;
 }
@@ -158,22 +164,30 @@ Player_Hand card_to_phand(Deck *deck, Player_Hand *player_hand) {
 
 int win(int bet_amount, Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
 	if (player_hand->value == -1) {
-		printf("You lose!\n");
+		printf("You lose your main bet!\n");
 		return -1;
 	} else if (dealer_hand->value == -1) {
 		printf("You win!\n");
 		return 1;
-	} else if (player_hand->value > dealer_hand->value
-			&& dealer_hand->value != -1) {
-		printf("You win!\n");
+	} else if (player_hand->value > dealer_hand->value) {
+		printf("You have more than dealer. You win your main bet!\n");
 		return 1;
-	} else if (player_hand->value < dealer_hand->value
-			&& player_hand->value != -1) {
-		printf("You lose!\n");
+	} else if (player_hand->value < dealer_hand->value) {
+		printf("You have less than dealer. You lose your main bet!\n");
 		return -1;
 	} else {
-		printf("You push!\n");
+		printf("You push your main bet!\n");
 		return 0;
 	}
 
 }
+
+void clear_hands(Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
+	free(player_hand->cards);
+	free(dealer_hand->cards);
+	player_hand->num_cards = 0;
+	player_hand->value = 0;
+	dealer_hand->num_cards = 0;
+	dealer_hand->value = 0;
+}
+
