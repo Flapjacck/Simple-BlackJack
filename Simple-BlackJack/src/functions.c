@@ -108,23 +108,14 @@ Player_Hand player_choice(Deck *deck, Player_Hand *player_hand) {
 		printf("Hit(h) / Stand(s) / Double(d) / Split(l): ");
 		scanf(" %c", &choosing);
 
-		if (choosing == 'h') {
+		if (choosing == 'h' && player_hand->value < 21) {
 			// Handle 'h'
-			card_to_phand(deck, player_hand);\
+			card_to_phand(deck, player_hand);
 			if (player_hand->value > 21) {
 				printf("Player busts!\n");
-				return *player_hand;
-			}
 
-			while (player_hand->value < 21) {
-				card_to_phand(deck, player_hand);
-				if (player_hand->value > 21) {
-					printf("Player busts!\n");
-					return *player_hand;
-				}
-				return *player_hand;
 			}
-
+			return *player_hand;
 		} else if (choosing == 's') {
 			// Handle 's'
 			return *player_hand;

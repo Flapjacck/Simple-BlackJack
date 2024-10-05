@@ -78,11 +78,20 @@ int main(int argc, char *argv[]) {
 					break;
 				}
 			}
-			//run choose function for players turn
-			player_choice(&deck, &player_hand);
+			//run functions for player and dealer
+			while (player_hand.value < 21) {
 
-			//run dealer function
-			dealer_choice(&deck, &dealer_hand);
+				//run player function
+				player_choice(&deck, &player_hand);
+
+				//run dealer function
+				dealer_choice(&deck, &dealer_hand);
+
+				//Display the current value for player
+				printf("Player's hand: %d on Dealer's hand: %d",
+						player_hand.value, dealer_hand.value);
+
+			}
 
 		}
 
@@ -94,9 +103,11 @@ int main(int argc, char *argv[]) {
 				player_hand.cards[0].face, player_hand.cards[0].suit,
 				player_hand.cards[1].face, player_hand.cards[1].suit,
 				player_hand.value);
-		printf("Dealer's hand: %s of %s\nPossilble :%d\n",
+
+		printf("Dealer's hand: %s of %s\nPossilble: %d\n",
 				dealer_hand.cards[0].face, dealer_hand.cards[0].suit,
-				dealer_hand.value);
+				dealer_hand.cards[1].value);
+
 //print_deck(&deck);
 		/*
 		 while (deck.size > 0) {
