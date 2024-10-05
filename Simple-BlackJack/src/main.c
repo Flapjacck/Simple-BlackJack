@@ -94,10 +94,19 @@ int main(int argc, char *argv[]) {
 				printf("Dealer turns over his hidden card\n");
 				printf("%s of %s\nTotal: %d\n", dealer_hand.cards[0].face,
 						dealer_hand.cards[0].suit, dealer_hand.value);
-				while (dealer_hand.value != -1) {
+				while (dealer_hand.value != -1 || dealer_hand.value <= 17) {
 					card_to_dhand(&deck, &dealer_hand);
 				}
 			}
+			//run win function
+			if (win(bet_amount, &player_hand, &dealer_hand) == 1) {
+				cash += bet_amount * 2;
+			} else if (win(bet_amount, &player_hand, &dealer_hand) == -1) {
+				//do nothing
+			} else {
+				cash += bet_amount;
+			}
+
 		}
 
 	}
