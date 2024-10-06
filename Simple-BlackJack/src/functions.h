@@ -34,47 +34,77 @@ typedef struct {
 // Constants.
 
 // Prototypes.
-//start of game, asks user for starting cash amount
-//return cash
+
+// Start of the game, prompts the user for the starting cash amount.
+// Returns the starting cash.
 int game_start();
 
-//gets the players bet amount
-//param cash - amount of cash player has
-//return remaining - cash
+// Gets the player's bet amount.
+// Parameter:
+// - cash: The amount of cash the player has.
+// Returns the remaining cash.
 int bet(int cash);
 
-//deals a card to the player than to the dealer thats hidden, then another to the player, and finally one to the dealer.
-//add the cards and value to the Player_Hand and Dealer_Hand respectively
+// Deals initial cards: one to the player, one hidden to the dealer, another to the player, and one to the dealer.
+// Updates the Player_Hand and Dealer_Hand with the dealt cards and their values.
+// Parameters:
+// - deck: The deck of cards.
+// - player_hand: The player's hand to be updated.
+// - dealer_hand: The dealer's hand to be updated.
 void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 		Dealer_Hand *dealer_hand);
 
-//offers the player to buy insurance when dealer is showing a ace, which is same amount as the bet.
-//if the dealer has a 10 and the player bought insurance then they receive their bet * 2.
-//if insurance not bought player losses the hand
+// Offers the player the option to buy insurance when the dealer shows an ace.
+// If the dealer has a 10-value card and the player bought insurance, the player receives their bet * 2.
+// If insurance is not bought and the dealer has Blackjack, the player loses the hand.
+// Parameters:
+// - bet: The player's bet amount.
+// - player_hand: The player's hand.
+// - dealer_hand: The dealer's hand.
+// - deck: The deck of cards.
+// Returns the updated cash amount.
 int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand,
 		Deck *deck);
 
-//offers the player the choice to hit, stand, double, or split
-//each choice in its own function
-//returns player hand
+// Offers the player choices: hit, stand, double, or split, each in its own function.
+// Parameters:
+// - deck: The deck of cards.
+// - player_hand: The player's hand to be updated.
+// Returns the updated player hand.
 Player_Hand player_choice(Deck *deck, Player_Hand *player_hand);
 
-//deals cards to dealer till hand reaches 17-21 or busts
-//returns dealer hand
+// Deals cards to the dealer until the hand value reaches 17-21 or busts.
+// Parameters:
+// - deck: The deck of cards.
+// - dealer_hand: The dealer's hand to be updated.
+// Returns the updated dealer hand.
 Dealer_Hand card_to_dhand(Deck *deck, Dealer_Hand *dealer_hand);
 
-//deals a card to the players hand
+// Deals a card to the player's hand.
+// Parameters:
+// - deck: The deck of cards.
+// - player_hand: The player's hand to be updated.
+// Returns the updated player hand.
 Player_Hand card_to_phand(Deck *deck, Player_Hand *player_hand);
 
-//Compares dealers and players hand value
-//checks to see who has higher value and returns value of win
+// Compares the dealer's and player's hand values to determine the winner.
+// Parameters:
+// - bet_amount: The player's bet amount.
+// - player_hand: The player's hand.
+// - dealer_hand: The dealer's hand.
+// Returns the result of the comparison (win/loss).
 int win(int bet_amount, Player_Hand *player_hand, Dealer_Hand *dealer_hand);
 
-//clears the dealer and players cards, num_cards and value
-//takes player and dealers hand
+// Clears the dealer's and player's cards, number of cards, and values.
+// Parameters:
+// - player_hand: The player's hand to be cleared.
+// - dealer_hand: The dealer's hand to be cleared.
 void clear_hands(Player_Hand *player_hand, Dealer_Hand *dealer_hand);
 
-//function to print all stats of player and dealer hand
+// Prints all stats of the player's and dealer's hands.
+// Parameters:
+// - player_hand: The player's hand.
+// - dealer_hand: The dealer's hand.
 void print_all(Player_Hand *player_hand, Dealer_Hand *dealer_hand);
 
 #endif /* FUNCTIONS_H_ */

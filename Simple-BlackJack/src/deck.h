@@ -32,29 +32,36 @@ typedef struct {
 
 // Prototypes
 
-// Function to initialize multiple decks of cards
-// deck: array to hold the cards
-// num_decks: number of decks to initialize
+// Function to initialize multiple decks of cards.
+// Parameters:
+// - deck: Array to hold the cards.
+// - num_decks: Number of decks to initialize.
 void init_decks(Deck *deck, int num_decks);
 
-// Function to print a deck of cards
-// deck: array the holds the cards
+// Function to print a deck of cards.
+// Parameters:
+// - deck: Array that holds the cards.
 void print_deck(const Deck *deck);
 
-// Function to shuffle a deck of cards
-// deck: array of cards to shuffle
+// Function to shuffle a deck of cards.
+// Parameters:
+// - deck: Array of cards to shuffle.
 void shuffle_deck(Deck *deck);
 
-//function too add a cut card randomly between half deck_size and full deck_size to the deck with a value of NULL
-// deck: array of cards to shuffle
+// Function to add a cut card randomly between half deck_size and full deck_size to the deck with a value of NULL.
+// Parameters:
+// - deck: Array of cards to shuffle.
 void cut_card(Deck *deck);
 
-// Function to get a card to deal, removes one from deck_size and checks for cut card
-// deck: array of cards to print
+// Function to get a card to deal, removes one from deck_size and checks for cut card.
+// Parameters:
+// - deck: Array of cards to print.
+// Returns the dealt card.
 Card deal_card(Deck *deck);
 
-// Function to print card
-// card: the card to print
+// Function to print a card.
+// Parameters:
+// - card: The card to print.
 void print_card(const Card card);
 
 #endif /* DECK_H_ */

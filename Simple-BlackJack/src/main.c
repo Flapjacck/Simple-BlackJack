@@ -44,11 +44,15 @@ int main(int argc, char *argv[]) {
 
 	//game loop
 	while (cash > 0) {
+		//reset hands
 		clear_hands(&player_hand, &dealer_hand);
+
+		//run functions for bet and deal
 		bet_amount = bet(cash);
 		cash -= bet_amount;
 		deal_initial_cards(&deck, &player_hand, &dealer_hand);
 
+		//check if player has natural blackjack
 		if (player_hand.value == 21) {
 			printf("Player's hand: %s of %s and %s of %s\nTotal: %d\n",
 					player_hand.cards[0].face, player_hand.cards[0].suit,
@@ -57,6 +61,7 @@ int main(int argc, char *argv[]) {
 			printf("Blackjack! You win!\n");
 			cash += bet_amount * 2.5;
 		} else {
+			//print player and dealer hands if no nat bj
 			printf("Player's hand: %s of %s and %s of %s\nTotal: %d\n",
 					player_hand.cards[0].face, player_hand.cards[0].suit,
 					player_hand.cards[1].face, player_hand.cards[1].suit,
