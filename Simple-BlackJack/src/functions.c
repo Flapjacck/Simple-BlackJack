@@ -41,12 +41,12 @@ int bet(int cash) {
 void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 		Dealer_Hand *dealer_hand) {
 	// Initialize the player's hand
-	player_hand->cards = malloc(2 * sizeof(Card));
+	player_hand->cards = malloc(10 * sizeof(Card));
 	player_hand->num_cards = 0;
 	player_hand->value = 0;
 
 	// Initialize the dealer's hand
-	dealer_hand->cards = malloc(2 * sizeof(Card));
+	dealer_hand->cards = malloc(10 * sizeof(Card));
 	dealer_hand->num_cards = 0;
 	dealer_hand->value = 0;
 
@@ -75,22 +75,35 @@ void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 //function to check if the player wants insurance
 int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand,
 		Deck *deck) {
-	char input;
+	char input = '\0';  // Initialize input to a value that is not 'y' or 'n'
 	int ibet = bet / 2;
-	printf("Would you like insurance? (y/n): ");
-	scanf(" %c", &input);
-	if (input == 'y') {
-		if (dealer_hand->value == 21) {
-			printf("Dealer has blackjack! You win insurance! \n");
-			return ibet * 3;
-		} else {
-			printf("Dealer does not have blackjack! \n");
-			return 0;
-		}
-	} else {
-		return ibet;
 
+	while (input != 'y' && input != 'n') {
+		printf("Would you like insurance? (y/n): ");
+		scanf(" %c", &input);
+
+		if (input == 'y') {
+			if (dealer_hand->value == 21) {
+				printf("Dealer has blackjack! You win insurance! \n");
+				dealer_hand->nat_bj = 1;
+				return ibet * 3;
+			} else {
+				printf("Dealer does not have blackjack! \n");
+				return 0;
+			}
+		} else if (input == 'n') {
+			printf("You declined insurance\n");
+			if (dealer_hand->value == 21) {
+				printf("Dealer has blackjack! You lose insurance! \n");
+				dealer_hand->nat_bj = 1;
+			}
+			return ibet;
+		} else {
+			printf("You entered something incorrectly, try again\n");
+			input = '\0';  // Reset input to ensure the loop continues
+		}
 	}
+	return 0; // This return statement will never be reached, but it's good practice to include it
 }
 
 //function that allows the player to handle turn
@@ -104,10 +117,6 @@ Player_Hand player_choice(Deck *deck, Player_Hand *player_hand) {
 		if (choosing == 'h') {
 			// Handle 'h'
 			card_to_phand(deck, player_hand);
-			if (player_hand->value > 21) {
-				player_hand->value = -1;
-				return *player_hand;
-			}
 		} else if (choosing == 's') {
 			// Handle 's'
 			printf("Player stands!\n");
@@ -136,7 +145,7 @@ Dealer_Hand card_to_dhand(Deck *deck, Dealer_Hand *dealer_hand) {
 	printf("Dealer's total: %d\n", dealer_hand->value);
 	if (dealer_hand->value > 21) {
 		printf("Dealer busts!\n");
-		dealer_hand->value = -1;
+		dealer_hand->bust = 1;
 	}
 	return *dealer_hand;
 }
@@ -152,10 +161,10 @@ Player_Hand card_to_phand(Deck *deck, Player_Hand *player_hand) {
 }
 
 int win(int bet_amount, Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
-	if (player_hand->value == -1) {
+	if (player_hand->value > 21) {
 		printf("You bust. You lose your main bet!\n");
 		return -1;
-	} else if (dealer_hand->value == -1) {
+	} else if (dealer_hand->value > 21) {
 		printf("You win!\n");
 		return 1;
 	} else if (player_hand->value > dealer_hand->value) {
@@ -172,9 +181,30 @@ int win(int bet_amount, Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
 }
 
 void clear_hands(Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
+	free(player_hand->cards);
+	free(dealer_hand->cards);
 	player_hand->num_cards = 0;
 	player_hand->value = 0;
 	dealer_hand->num_cards = 0;
 	dealer_hand->value = 0;
+	dealer_hand->bust = 0;
+}
+
+void print_all(Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
+
+	printf("Player's hand: ");
+	for (int i = 0; i < player_hand->num_cards; i++) {
+		printf("%s of %s, ", player_hand->cards[i].face,
+				player_hand->cards[i].suit);
+	}
+	printf("\nTotal: %d\n", player_hand->value);
+
+	printf("Dealer's hand: ");
+	for (int i = 0; i < dealer_hand->num_cards; i++) {
+		printf("%s of %s, ", dealer_hand->cards[i].face,
+				dealer_hand->cards[i].suit);
+	}
+	printf("\nTotal: %d\n", dealer_hand->value);
+	printf("Dealer's bust status: %d\n", dealer_hand->bust);
 }
 

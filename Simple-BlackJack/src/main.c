@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
 
 	//game loop
 	while (cash > 0) {
+		clear_hands(&player_hand, &dealer_hand);
 		bet_amount = bet(cash);
 		cash -= bet_amount;
 		deal_initial_cards(&deck, &player_hand, &dealer_hand);
@@ -72,12 +73,11 @@ int main(int argc, char *argv[]) {
 			}
 
 			//run functions for player and dealer
-			while (player_hand.value < 21 && dealer_hand.value < 21) {
-
+			while (player_hand.value < 21 && dealer_hand.nat_bj != 1) {
 				//run player function
 				player_choice(&deck, &player_hand);
 
-				if (player_hand.value == -1) {
+				if (player_hand.value > 21) {
 					break;
 				} else if (player_hand.num_cards == -1) {
 					break;
@@ -88,11 +88,8 @@ int main(int argc, char *argv[]) {
 				printf("Dealer turns over his hidden card\n");
 				printf("%s of %s\nTotal: %d\n", dealer_hand.cards[0].face,
 						dealer_hand.cards[0].suit, dealer_hand.value);
-				while (dealer_hand.value < 17) {
+				while (dealer_hand.bust != 1 && dealer_hand.value < 17) {
 					card_to_dhand(&deck, &dealer_hand);
-					if (dealer_hand.value == -1) {
-						break;
-					}
 				}
 			}
 
@@ -109,7 +106,6 @@ int main(int argc, char *argv[]) {
 		}
 		//reset hands
 		bet_amount = 0;
-		clear_hands(&player_hand, &dealer_hand);
 		printf("You have $%d\n", cash);
 
 	}

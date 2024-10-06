@@ -28,6 +28,8 @@ typedef struct {
 	Card *cards; //cards in hand
 	int num_cards; //number of cards in hand
 	int value; //value of cards in hand
+	int bust; // 1 == bust, 0 == hit
+	int nat_bj; // 1 == bj, 0 == no bj
 } Dealer_Hand;
 // Constants.
 
@@ -71,5 +73,8 @@ int win(int bet_amount, Player_Hand *player_hand, Dealer_Hand *dealer_hand);
 //clears the dealer and players cards, num_cards and value
 //takes player and dealers hand
 void clear_hands(Player_Hand *player_hand, Dealer_Hand *dealer_hand);
+
+//function to print all stats of player and dealer hand
+void print_all(Player_Hand *player_hand, Dealer_Hand *dealer_hand);
 
 #endif /* FUNCTIONS_H_ */
