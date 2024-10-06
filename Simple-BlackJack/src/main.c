@@ -63,13 +63,6 @@ int main(int argc, char *argv[]) {
 			printf("Dealer's visible card: %s of %s\n",
 					dealer_hand.cards[1].face, dealer_hand.cards[1].suit);
 
-			//Temporarily set dealer's cards to 10 and 11
-			dealer_hand.cards[0].value = 6;
-			dealer_hand.cards[1].value = 11;
-			dealer_hand.value = 17;
-			printf("Dealer's hidden card: %d of %s\n",
-					dealer_hand.cards[1].value, dealer_hand.cards[0].suit);
-
 			//run insurance function
 			if (dealer_hand.cards[1].value == 11) {
 				cash -= (bet_amount / 2);
@@ -115,8 +108,10 @@ int main(int argc, char *argv[]) {
 
 		}
 		//reset hands
+		bet_amount = 0;
 		clear_hands(&player_hand, &dealer_hand);
 		printf("You have $%d\n", cash);
+
 	}
 
 	return 0;
