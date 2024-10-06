@@ -127,7 +127,10 @@ Player_Hand player_choice(Deck *deck, Player_Hand *player_hand) {
 			player_hand->num_cards = -1;
 			return *player_hand;
 		} else if (choosing == 'd' && player_hand->num_cards == 2) {
-			// Handle 'd'
+			// Handle 'double'
+			printf("Player doubles!\n");
+			card_to_phand(deck, player_hand);
+			player_hand->d = 1;
 			return *player_hand;
 		} else if (choosing == 'l' && player_hand->num_cards == 2) {
 			// Handle 'l'
@@ -181,10 +184,12 @@ int win(int bet_amount, Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
 	}
 	//compare values and determine winner
 	else if (player_hand->value > dealer_hand->value) {
-		printf("You have more than dealer. You win your main bet!\n");
+		printf("%d > %d. You have more than dealer. You win your main bet!\n",
+				player_hand->value, dealer_hand->value);
 		return 1;
 	} else if (player_hand->value < dealer_hand->value) {
-		printf("You have less than dealer. You lose your main bet!\n");
+		printf("%d < %d. You have less than dealer. You lose your main bet!\n",
+				player_hand->value, dealer_hand->value);
 		return -1;
 	}
 	//push

@@ -22,6 +22,8 @@ typedef struct {
 	Card *cards; //cards in hand
 	int num_cards; //number of cards in hand
 	int value; //value of cards in hand
+	int d; //1 if player doubled, 0 if not
+	int bust; //1 if bust, 0 if not
 } Player_Hand;
 
 typedef struct {

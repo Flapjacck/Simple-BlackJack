@@ -28,7 +28,6 @@ int main(int argc, char *argv[]) {
 
 	//game start
 	cash = game_start();
-	printf("You have $%d\n", cash);
 
 	// User input for number of decks
 	int num_decks = 0;
@@ -46,6 +45,12 @@ int main(int argc, char *argv[]) {
 	while (cash > 0) {
 		//reset hands
 		clear_hands(&player_hand, &dealer_hand);
+
+		//prints line break per round
+		printf("--------------------------------------------------------\n");
+
+		//print cash
+		printf("You have $%d\n", cash);
 
 		//run functions for bet and deal
 		bet_amount = bet(cash);
@@ -82,14 +87,28 @@ int main(int argc, char *argv[]) {
 				//run player function
 				player_choice(&deck, &player_hand);
 
-				if (player_hand.value > 21) {
+				//break due to player bust
+				if (player_hand.value > 21 && player_hand.d != 1) {
 					break;
-				} else if (player_hand.num_cards == -1) {
+				}
+				//break due to player stand
+				else if (player_hand.num_cards == -1) {
+					break;
+				}
+				//break due to player double down
+				else if (player_hand.d == 1) {
+					cash -= bet_amount;
+					bet_amount *= 2;
+					player_hand.num_cards = -1;
+					if (player_hand.value > 21) {
+						player_hand.bust = 1;
+						break;
+					}
 					break;
 				}
 			}
 			//run dealer function
-			if (player_hand.num_cards == -1) {
+			if (player_hand.num_cards == -1 && player_hand.bust != 1) {
 				printf("Dealer turns over his hidden card\n");
 				printf("%s of %s\nTotal: %d\n", dealer_hand.cards[0].face,
 						dealer_hand.cards[0].suit, dealer_hand.value);
@@ -111,9 +130,12 @@ int main(int argc, char *argv[]) {
 		}
 		//reset hands
 		bet_amount = 0;
-		printf("You have $%d\n", cash);
 
 	}
+
+	//ran out of cash
+	printf("You ran out of cash! Game over!\n");
+	printf("--------------------------------------------------------\n");
 
 	return 0;
 }
