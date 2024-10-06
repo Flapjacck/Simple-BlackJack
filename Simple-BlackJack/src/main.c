@@ -83,29 +83,16 @@ int main(int argc, char *argv[]) {
 			}
 
 			//run functions for player and dealer
-			while (player_hand.value < 21 && dealer_hand.nat_bj != 1) {
-				//run player function
-				player_choice(&deck, &player_hand);
-
-				//break due to player bust
-				if (player_hand.value > 21 && player_hand.d != 1) {
-					break;
-				}
-				//break due to player stand
-				else if (player_hand.num_cards == -1) {
-					break;
-				}
-				//break due to player double down
-				else if (player_hand.d == 1) {
+			while (player_hand.bust != 1 && player_hand.num_cards != -1
+					&& dealer_hand.nat_bj != 1) {
+				player_choice(&deck, &player_hand, cash, bet_amount);
+				//double down
+				if (player_hand.d == 1) {
 					cash -= bet_amount;
 					bet_amount *= 2;
-					player_hand.num_cards = -1;
-					if (player_hand.value > 21) {
-						player_hand.bust = 1;
-						break;
-					}
-					break;
 				}
+				check_bust(&player_hand);
+
 			}
 			//run dealer function
 			if (player_hand.num_cards == -1 && player_hand.bust != 1) {

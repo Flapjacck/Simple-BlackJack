@@ -73,7 +73,13 @@ int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand,
 // - deck: The deck of cards.
 // - player_hand: The player's hand to be updated.
 // Returns the updated player hand.
-Player_Hand player_choice(Deck *deck, Player_Hand *player_hand);
+Player_Hand player_choice(Deck *deck, Player_Hand *player_hand, int cash,
+		int bet);
+
+// Checks for player bust
+// - player_hand: The player's hand to be updated.
+// Returns the updated player hand.
+Player_Hand check_bust(Player_Hand *player_hand);
 
 // Deals cards to the dealer until the hand value reaches 17-21 or busts.
 // Parameters:
