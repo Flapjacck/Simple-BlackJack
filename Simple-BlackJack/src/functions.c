@@ -40,20 +40,19 @@ int bet(int cash) {
 	return bet;
 }
 
-void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
-		Dealer_Hand *dealer_hand) {
+void deal_initial_cards(Deck *deck, Hand *player_hand, Hand *dealer_hand) {
 	// Initialize the player's hand
-	player_hand->cards = malloc(10 * sizeof(Card));
+	player_hand->cards = malloc(20 * sizeof(Card));
 	player_hand->num_cards = 0;
 	player_hand->value = 0;
 
 	// Initialize the dealer's hand
-	dealer_hand->cards = malloc(10 * sizeof(Card));
+	dealer_hand->cards = malloc(20 * sizeof(Card));
 	dealer_hand->num_cards = 0;
 	dealer_hand->value = 0;
 
 	// Deal the first card to the player
-	card_to_phand(deck, player_hand);
+	card_to_hand(deck, player_hand);
 
 	// Deal the first card to the dealer (hidden)
 	Card first_dealer_card = deal_card(deck);
@@ -63,20 +62,15 @@ void deal_initial_cards(Deck *deck, Player_Hand *player_hand,
 	printf("Dealt dealers hidden card...\n");
 
 	// Deal the second card to the player
-	card_to_phand(deck, player_hand);
+	card_to_hand(deck, player_hand);
 
 	// Deal the second card to the dealer (visible)
-	Card dealt_card = deal_card(deck);
-	dealer_hand->value += dealt_card.value;
-	dealer_hand->cards[dealer_hand->num_cards] = dealt_card;
-	dealer_hand->num_cards++;
-	printf("Dealt dealer %s of %s...\n", dealt_card.face, dealt_card.suit);
+	card_to_hand(deck, dealer_hand);
 
 }
 
 //function to check if the player wants insurance
-int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand,
-		Deck *deck) {
+int insurance(int bet, Hand *player_hand, Hand *dealer_hand, Deck *deck) {
 	char input = '\0';  // Initialize input to a value that is not 'y' or 'n'
 	int ibet = bet / 2;
 
@@ -111,8 +105,7 @@ int insurance(int bet, Player_Hand *player_hand, Dealer_Hand *dealer_hand,
 }
 
 //function that allows the player to handle turn
-Player_Hand player_choice(Deck *deck, Player_Hand *player_hand, int cash,
-		int bet) {
+void player_choice(Deck *deck, Hand *player_hand, int cash, int bet) {
 
 	char choosing = '\0';
 	while (choosing == '\0') {
@@ -121,23 +114,23 @@ Player_Hand player_choice(Deck *deck, Player_Hand *player_hand, int cash,
 
 		if (choosing == 'h') {
 			// Handle 'hit'
-			card_to_phand(deck, player_hand);
+			card_to_hand(deck, player_hand);
 		} else if (choosing == 's') {
 			// Handle 'stand'
 			printf("Player stands!\n");
 			player_hand->num_cards = -1;
-			return *player_hand;
+			break;
 		} else if (choosing == 'd' && player_hand->num_cards == 2
-				&& cash > bet) {
+				&& cash >= bet) {
 			// Handle 'double'
 			printf("Player doubles!\n");
-			card_to_phand(deck, player_hand);
+			card_to_hand(deck, player_hand);
 			player_hand->d = 1;
 			player_hand->num_cards = -1;
-			return *player_hand;
+			break;
 		} else if (choosing == 'l' && player_hand->num_cards == 2) {
 			// Handle 'l'
-			return *player_hand;
+			break;
 		} else if (choosing == 'd' && player_hand->num_cards != 2) {
 			printf("You cannot double down\n");
 			choosing = '\0';
@@ -149,44 +142,44 @@ Player_Hand player_choice(Deck *deck, Player_Hand *player_hand, int cash,
 			choosing = '\0';
 		}
 	}
-	return *player_hand;
 }
 
-Player_Hand check_bust(Player_Hand *player_hand) {
-	if (player_hand->value > 21) {
-		player_hand->bust = 1;
+void check_bust(Hand *hand) {
+	hand->bust = 0;
+	hand->value = 0;
+	int ace_count = 0;
+
+	for (int i = 0; i < hand->num_cards; i++) {
+		hand->value += hand->cards[i].value;
+		if (hand->cards[i].is_ace) {
+			ace_count++;
+		}
 	}
-	return *player_hand;
+
+	while (hand->value > 21 && ace_count > 0) {
+		hand->value -= 10;
+		ace_count--;
+	}
+
+	if (hand->value > 21) {
+		hand->bust = 1;
+	} else if (hand->value == 21) {
+		hand->num_cards = -1;
+	}
 }
 
-Dealer_Hand card_to_dhand(Deck *deck, Dealer_Hand *dealer_hand) {
+void card_to_hand(Deck *deck, Hand *hand) {
 // Deal the card to the dealer_hand
 	Card dealt_card = deal_card(deck);
-	dealer_hand->value += dealt_card.value;
-	dealer_hand->cards[dealer_hand->num_cards] = dealt_card;
-	dealer_hand->num_cards++;
-	printf("Dealt dealer %s of %s...\n", dealt_card.face, dealt_card.suit);
-	printf("Dealer's total: %d\n", dealer_hand->value);
-//check if dealer busts
-	if (dealer_hand->value > 21) {
-		printf("Dealer busts!\n");
-		dealer_hand->bust = 1;
-	}
-	return *dealer_hand;
+	hand->value += dealt_card.value;
+	hand->cards[hand->num_cards] = dealt_card;
+	hand->num_cards++;
+	check_bust(hand);
+	printf("Dealt %s %s of %s...\n", hand->name, dealt_card.face,
+			dealt_card.suit);
 }
 
-Player_Hand card_to_phand(Deck *deck, Player_Hand *player_hand) {
-// Deal the card to the player_hand
-	Card dealt_card = deal_card(deck);
-	player_hand->value += dealt_card.value;
-	player_hand->cards[player_hand->num_cards] = dealt_card;
-	player_hand->num_cards++;
-	printf("Dealt player %s of %s...\n", dealt_card.face, dealt_card.suit);
-	printf("Player's total: %d\n", player_hand->value);
-	return *player_hand;
-}
-
-int win(int bet_amount, Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
+int win(int bet_amount, Hand *player_hand, Hand *dealer_hand) {
 //check who wins
 //player busts
 	if (player_hand->value > 21) {
@@ -195,7 +188,7 @@ int win(int bet_amount, Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
 	}
 //dealer busts
 	else if (dealer_hand->value > 21) {
-		printf("You win!\n");
+		printf("Dealer busts. You win!\n");
 		return 1;
 	}
 //compare values and determine winner
@@ -216,7 +209,7 @@ int win(int bet_amount, Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
 
 }
 
-void clear_hands(Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
+void clear_hands(Hand *player_hand, Hand *dealer_hand) {
 //clear hands
 	free(player_hand->cards);
 	free(dealer_hand->cards);
@@ -227,9 +220,10 @@ void clear_hands(Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
 	dealer_hand->num_cards = 0;
 	dealer_hand->value = 0;
 	dealer_hand->bust = 0;
+	dealer_hand->nat_bj = 0;
 }
 
-void print_all(Player_Hand *player_hand, Dealer_Hand *dealer_hand) {
+void print_all(Hand *player_hand, Hand *dealer_hand) {
 
 	printf("Player's hand: ");
 	for (int i = 0; i < player_hand->num_cards; i++) {

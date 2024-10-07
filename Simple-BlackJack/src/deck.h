@@ -23,6 +23,7 @@ typedef struct {
 	const char *face;
 	const char *suit;
 	int value; //value of card
+	int is_ace;  //checks
 } Card;
 
 typedef struct {

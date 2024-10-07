@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "functions.h"
 #include "deck.h"
@@ -20,8 +21,8 @@
 int cash;
 int insurance_bet;
 int bet_amount;
-Player_Hand player_hand;
-Dealer_Hand dealer_hand;
+Hand player_hand;
+Hand dealer_hand;
 
 int main(int argc, char *argv[]) {
 	setbuf(stdout, NULL);
@@ -40,6 +41,10 @@ int main(int argc, char *argv[]) {
 	shuffle_deck(&deck);
 	printf("**%d deck(s) initialized and shuffled**\n", num_decks);
 	cut_card(&deck);
+
+	//sets player and dealer hand names
+	strcpy(player_hand.name, "Player");
+	strcpy(dealer_hand.name, "Dealer");
 
 	//game loop
 	while (cash > 0) {
@@ -82,7 +87,7 @@ int main(int argc, char *argv[]) {
 				cash += insurance_bet;
 			}
 
-			//run functions for player and dealer
+			//run functions for player
 			while (player_hand.bust != 1 && player_hand.num_cards != -1
 					&& dealer_hand.nat_bj != 1) {
 				player_choice(&deck, &player_hand, cash, bet_amount);
@@ -91,8 +96,7 @@ int main(int argc, char *argv[]) {
 					cash -= bet_amount;
 					bet_amount *= 2;
 				}
-				check_bust(&player_hand);
-
+				printf("%s total: %d\n", player_hand.name, player_hand.value);
 			}
 			//run dealer function
 			if (player_hand.num_cards == -1 && player_hand.bust != 1) {
@@ -100,7 +104,8 @@ int main(int argc, char *argv[]) {
 				printf("%s of %s\nTotal: %d\n", dealer_hand.cards[0].face,
 						dealer_hand.cards[0].suit, dealer_hand.value);
 				while (dealer_hand.bust != 1 && dealer_hand.value < 17) {
-					card_to_dhand(&deck, &dealer_hand);
+					card_to_hand(&deck, &dealer_hand);
+					check_bust(&dealer_hand);
 				}
 			}
 

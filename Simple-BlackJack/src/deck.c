@@ -33,6 +33,7 @@ void init_decks(Deck *deck, int num_decks) {
 				deck->cards[deck_index].suit = cardSuits[s];
 				if (f == 0) {
 					deck->cards[deck_index].value = 11; // Ace
+					deck->cards[deck_index].is_ace = 1;
 				} else if (f >= 9) {
 					deck->cards[deck_index].value = 10; // Jacks, Queens, and Kings
 				} else {
