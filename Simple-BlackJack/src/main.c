@@ -16,6 +16,7 @@
 
 #include "functions.h"
 #include "deck.h"
+#include "score.h"
 
 //variables
 int cash;
@@ -23,12 +24,19 @@ int insurance_bet;
 int bet_amount;
 Hand player_hand;
 Hand dealer_hand;
+Score curr_score;
+Score high_score;
 
 int main(int argc, char *argv[]) {
 	setbuf(stdout, NULL);
 
 	//game start
 	cash = game_start();
+	curr_score.scash = cash;
+
+	FILE *file;
+	open_file(&file, "score.txt", "r");
+	read_file_highscores(file, &high_score);
 
 	// User input for number of decks
 	int num_decks = 0;
@@ -70,6 +78,7 @@ int main(int argc, char *argv[]) {
 					player_hand.value);
 			printf("Blackjack! You win!\n");
 			cash += bet_amount * 2.5;
+
 		} else {
 			//print player and dealer hands if no nat bj
 			printf("Player's hand: %s of %s and %s of %s\nTotal: %d\n",
@@ -104,8 +113,8 @@ int main(int argc, char *argv[]) {
 				printf("%s of %s\nTotal: %d\n", dealer_hand.cards[0].face,
 						dealer_hand.cards[0].suit, dealer_hand.value);
 				while (dealer_hand.bust != 1 && dealer_hand.value < 17) {
-					card_to_hand(&deck, &dealer_hand);
 					check_bust(&dealer_hand);
+					card_to_hand(&deck, &dealer_hand);
 				}
 			}
 
@@ -118,15 +127,31 @@ int main(int argc, char *argv[]) {
 			} else {
 				cash += bet_amount;
 			}
-
 		}
+
+		//Checks for the most cash amount player has
+		highest_cash(cash, &curr_score);
+
 		//reset hands
 		bet_amount = 0;
+		// Check for quit input
+		if (cash != 0) {
 
+			printf("Press 'q' to quit or any other key to continue: ");
+			char input;
+			scanf(" %c", &input); // Note the space before %c to consume any leftover whitespace
+			if (input == 'q' || input == 'Q') {
+				break;
+			}
+		}
 	}
 
+	//write score
+	open_file(&file, "score.txt", "a");
+	write_file_score(file, &curr_score);
+
 	//ran out of cash
-	printf("You ran out of cash! Game over!\n");
+	printf("Thanks For Playing\n");
 	printf("--------------------------------------------------------\n");
 
 	return 0;

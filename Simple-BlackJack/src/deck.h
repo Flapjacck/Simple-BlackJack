@@ -49,6 +49,11 @@ void print_deck(const Deck *deck);
 // - deck: Array of cards to shuffle.
 void shuffle_deck(Deck *deck);
 
+// Function to check if the cut card is reached and shuffle the deck if necessary.
+// Parameters:
+// - deck: Array of cards to check and shuffle.
+void check_and_shuffle(Deck *deck);
+
 // Function to add a cut card randomly between half deck_size and full deck_size to the deck with a value of NULL.
 // Parameters:
 // - deck: Array of cards to shuffle.

@@ -14,8 +14,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include "deck.h"
+#include "score.h"
 
 //structures
 typedef struct {
@@ -93,6 +93,9 @@ int win(int bet_amount, Hand *player_hand, Hand *dealer_hand);
 // - player_hand: The player's hand to be cleared.
 // - dealer_hand: The dealer's hand to be cleared.
 void clear_hands(Hand *player_hand, Hand *dealer_hand);
+
+//function to catch highest amount of cash
+void highest_cash(int cash, Score *score);
 
 // Prints all stats of the player's and dealer's hands.
 // Parameters:

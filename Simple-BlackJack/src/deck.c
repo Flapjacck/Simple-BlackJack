@@ -62,13 +62,20 @@ void shuffle_deck(Deck *deck) {
 	}
 }
 
+void check_and_shuffle(Deck *deck) {
+	if (deck->size > 0 && deck->cards[deck->size - 1].face == NULL) {
+		printf("**Cut card reached, shuffling deck**");
+		shuffle_deck(deck);
+		cut_card(deck);
+	}
+}
+
 void cut_card(Deck *deck) {
 	// Seed the random number generator
 	srand(time(NULL));
 
 	// Generate a random index to place the cut card
-	int cut_index = rand() % ((deck->size - 4) - ((deck->size) / 2) + 1)
-			+ (deck->size / 2);
+	int cut_index = rand() % ((deck->size / 2) - 4 + 1) + 4;
 
 	// Create a cut card with NULL values
 	Card cut_card = { NULL, NULL, 0 };
@@ -81,19 +88,15 @@ void cut_card(Deck *deck) {
 }
 
 Card deal_card(Deck *deck) {
-	Card dealt_card = deck->cards[0];
-	// Check if the dealt card is the cut card
-	if (dealt_card.face == NULL) {
-		printf("Cut card reached!\n");
-		exit(0);
+	if (deck->size == 0) {
+		// Handle the case when the deck is empty (optional)
 	}
-	// Shift all the cards to the left by one and decrement the size by 1
-	if (deck->size > 0) {
-		for (int i = 1; i < deck->size; i++) {
-			deck->cards[i - 1] = deck->cards[i];
-		}
-		deck->size--;
-	}
+
+	// Call the check_and_shuffle function before dealing a card
+	check_and_shuffle(deck);
+
+	Card dealt_card = deck->cards[deck->size - 1];
+	deck->size--; // Reduce the size of the deck
 
 	return dealt_card;
 }

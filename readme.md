@@ -14,7 +14,7 @@ Clone the project, then build and run the program
 
 ```bash
   git clone https://github.com/Flapjacck/Simple-BlackJack.git
-  gcc main.c functions.c deck.c -o main.exe
+  gcc main.c functions.c deck.c score.c -o main.exe
 ```
     
 ## Authors

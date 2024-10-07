@@ -221,6 +221,14 @@ void clear_hands(Hand *player_hand, Hand *dealer_hand) {
 	dealer_hand->value = 0;
 	dealer_hand->bust = 0;
 	dealer_hand->nat_bj = 0;
+
+}
+
+void highest_cash(int cash, Score *score) {
+
+	if (cash > score->hcash) {
+		score->hcash = cash;
+	}
 }
 
 void print_all(Hand *player_hand, Hand *dealer_hand) {
@@ -239,5 +247,6 @@ void print_all(Hand *player_hand, Hand *dealer_hand) {
 	}
 	printf("\nTotal: %d\n", dealer_hand->value);
 	printf("Dealer's bust status: %d\n", dealer_hand->bust);
+
 }
 
