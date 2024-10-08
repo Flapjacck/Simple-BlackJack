@@ -10,9 +10,9 @@
 ![App Screenshot 2](https://i.imgur.com/KenRmWR.png)
 
 
-## Installation
+## Installation Using Terminal
 
-*****Need C compiler installed prior to install***
+*****Need C compiler installed prior to install (I use [tdm-gcc](https://jmeubank.github.io/tdm-gcc/))***
 
 1. Clone the project to desired location
 ```bash
