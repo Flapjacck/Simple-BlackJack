@@ -17,7 +17,6 @@
 //function to start the game
 int game_start() {
 	int cash = 0;
-	printf("Welcome to Simple Blackjack!\n");
 	//user input for cash
 	printf("How much cash would you like to start with?: ");
 	scanf("%d", &cash);
@@ -109,7 +108,7 @@ void player_choice(Deck *deck, Hand *player_hand, int cash, int bet) {
 
 	char choosing = '\0';
 	while (choosing == '\0') {
-		printf("Hit(h) / Stand(s) / Double(d) / Split(l): ");
+		printf("Hit(h) / Stand(s) / Double(d): ");
 		scanf(" %c", &choosing);
 
 		if (choosing == 'h') {
