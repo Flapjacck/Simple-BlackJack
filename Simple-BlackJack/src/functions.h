@@ -60,7 +60,7 @@ void deal_initial_cards(Deck *deck, Hand *player_hand, Hand *dealer_hand);
 // - dealer_hand: The dealer's hand.
 // - deck: The deck of cards.
 // Returns the updated cash amount.
-int insurance(int bet, Hand *player_hand, Hand *dealer_hand, Deck *deck);
+int insurance(int bet, Hand *dealer_hand);
 
 // Offers the player choices: hit, stand, double, or split, each in its own function.
 // Parameters:
@@ -92,7 +92,7 @@ void print_hands(Hand *hand);
 // - player_hand: The player's hand.
 // - dealer_hand: The dealer's hand.
 // Returns the result of the comparison (win/loss).
-int win(int bet_amount, Hand *player_hand, Hand *dealer_hand);
+int win(Hand *player_hand, Hand *dealer_hand);
 
 // Clears the dealer's and player's cards, number of cards, and values.
 // Parameters:

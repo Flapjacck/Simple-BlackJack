@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 
 #include "functions.h"
 #include "deck.h"
@@ -29,8 +30,11 @@ Score high_score;
 char done;
 char input;
 
-int main(int argc, char *argv[]) {
+int main() {
 	setbuf(stdout, NULL);
+
+	// Set console output to UTF-8
+	SetConsoleOutputCP(CP_UTF8);
 
 	//initialize done and Welcome print
 	done = 'n';
@@ -43,8 +47,10 @@ int main(int argc, char *argv[]) {
 		cash = game_start();
 		curr_score.scash = cash;
 
+		//read the file
 		FILE *file;
-		open_file(&file, "score.txt", "r");
+		char *file_path = "simple-blackjack/score.txt";
+		open_file(&file, file_path, "r");
 		read_file_highscores(file, &high_score);
 
 		// User input for number of decks
@@ -93,8 +99,7 @@ int main(int argc, char *argv[]) {
 				//run insurance function
 				if (dealer_hand.cards[1].value == 11) {
 					cash -= (bet_amount / 2);
-					insurance_bet = insurance(bet_amount, &player_hand,
-							&dealer_hand, &deck);
+					insurance_bet = insurance(bet_amount, &dealer_hand);
 					cash += insurance_bet;
 				}
 
@@ -141,7 +146,7 @@ int main(int argc, char *argv[]) {
 				}
 
 				//run win function
-				int win_result = win(bet_amount, &player_hand, &dealer_hand);
+				int win_result = win(&player_hand, &dealer_hand);
 				if (win_result == 1) {
 					cash += bet_amount * 2;
 				} else if (win_result == -1) {

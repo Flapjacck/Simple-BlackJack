@@ -96,7 +96,7 @@ void cut_card(Deck *deck) {
 	int cut_index = rand() % (deck->size / 2) + 5;
 
 	// Create a cut card with NULL values
-	Card cut_card = { NULL, NULL, 0, 0 };
+	Card cut_card = { NULL, NULL, NULL, 0, 0, 0 };
 
 	// Place the cut card at the random index
 	deck->cards[cut_index] = cut_card;

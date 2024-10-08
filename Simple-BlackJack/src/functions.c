@@ -73,7 +73,7 @@ void deal_initial_cards(Deck *deck, Hand *player_hand, Hand *dealer_hand) {
 }
 
 //function to check if the player wants insurance
-int insurance(int bet, Hand *player_hand, Hand *dealer_hand, Deck *deck) {
+int insurance(int bet, Hand *dealer_hand) {
 	char input = '\0';  // Initialize input to a value that is not 'y' or 'n'
 	int ibet = bet / 2;
 
@@ -227,7 +227,7 @@ void print_hands(Hand *hand) {
 
 }
 
-int win(int bet_amount, Hand *player_hand, Hand *dealer_hand) {
+int win(Hand *player_hand, Hand *dealer_hand) {
 //check who wins
 //player busts
 	if (player_hand->value > 21) {

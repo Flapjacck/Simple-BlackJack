@@ -17,29 +17,21 @@
   git clone https://github.com/Flapjacck/Simple-BlackJack.git
 ```
 
-2. Change directory to inside "*src*" folder:
+2. Change directory to inside "*Simple-BlackJack*" folder:
 ```
-  cd simple-blackjack/simple-blackjack/src
-```
-
-3. Compile the program:
-```
-  gcc main.c functions.c deck.c score.c -o main.exe
+  cd simple-blackjack
 ```
 
-4. Change encoding to UTF-8 load special characters for Windows terminal:
+3. Run the make file (can launch from .exe after its made):
 ```
-  chcp 65001
+  make run
 ```
-[For Mac](https://support.apple.com/lt-lt/guide/terminal/trml15220/mac)
-
-5. Run the program in the Windows terminal:
+For Mac users delete/comment these 2 lines of code on main.c before running make file
 ```
-  .\main.exe
+line 16 | #include <windows.h>
 ```
-For Mac:
 ```
-  ./main.exe
+line 37 | SetConsoleOutputCP(CP_UTF8);
 ```
 
 ## How to Play BlackJack
@@ -50,9 +42,9 @@ For Mac:
 
 ## F.A.Q
 
-Q: Why do i have weird symbols on my cards.
+Q: Make file gives a error "#include <windows.h> not found"
 
-A: Make sure your terminal is set to UTF-8 encoding (check instalation step #4)
+A: Most likely your on mac and havent deleted the necessary code (check instalation step #3)
 
    
 ## Authors
