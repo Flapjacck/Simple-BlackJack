@@ -173,7 +173,7 @@ int main() {
 		}
 
 		//write score
-		open_file(&file, "score.txt", "a");
+		open_file(&file, file_path, "a");
 		write_file_score(file, &curr_score);
 		close_file(file);
 
