@@ -27,13 +27,17 @@
   gcc main.c functions.c deck.c score.c -o main.exe
 ```
 
-4. Change encoding to UTF-8 load special characters for windows terminal:
+4. Change encoding to UTF-8 load special characters for Windows terminal:
 ```
   chcp 65001
 ```
 [For Mac](https://support.apple.com/lt-lt/guide/terminal/trml15220/mac)
 
-5. Run the program in the terminal:
+5. Run the program in the Windows terminal:
+```
+  .\main.exe
+```
+For Mac:
 ```
   ./main.exe
 ```
@@ -43,6 +47,13 @@
 - Player attempts to beat the dealer by getting a count as close to 21 as possible, without going over 21 or having a higher count than the dealer
 - Dealer stands on 17 - 21
 - Player win pays 1:1 | Natural BlackJack pays 3:2 | Insurance pays 2:1
+
+## F.A.Q
+
+Q: Why do i have weird symbols on my cards.
+
+A: Make sure your terminal is set to UTF-8 encoding (check instalation step #4)
+
    
 ## Authors
 
