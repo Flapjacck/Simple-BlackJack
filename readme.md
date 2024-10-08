@@ -5,33 +5,37 @@
 
 ## Screenshots
 
-![App Screenshot](https://i.imgur.com/YGS9ZgV.png)
-
-![App Screenshot 2](https://i.imgur.com/KenRmWR.png)
+![App Screenshot](https://i.imgur.com/jHoLb1J.png)
 
 
 ## Installation Using Terminal
 
 *****Need C compiler installed prior to install (I use [tdm-gcc](https://jmeubank.github.io/tdm-gcc/))***
 
-1. Clone the project to desired location
+1. Clone the project to desired location:
 ```bash
   git clone https://github.com/Flapjacck/Simple-BlackJack.git
 ```
 
-2. Change directory to inside "*src*" folder
+2. Change directory to inside "*src*" folder:
 ```
   cd simple-blackjack/simple-blackjack/src
 ```
 
-3. Compile the program
+3. Compile the program:
 ```
   gcc main.c functions.c deck.c score.c -o main.exe
 ```
 
-4. Run the program
+4. Change encoding to UTF-8 load special characters for windows terminal:
 ```
-  start main.exe
+  chcp 65001
+```
+[For Mac](https://support.apple.com/lt-lt/guide/terminal/trml15220/mac)
+
+5. Run the program in the terminal:
+```
+  ./main.exe
 ```
 
 ## How to Play BlackJack
