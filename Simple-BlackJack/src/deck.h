@@ -22,8 +22,10 @@
 typedef struct {
 	const char *face;
 	const char *suit;
+	char *sign; //letter symbol
 	int value; //value of card
 	int is_ace;  //checks
+	int hidden; //Hidden card
 } Card;
 
 typedef struct {

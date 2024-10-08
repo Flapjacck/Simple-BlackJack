@@ -26,6 +26,7 @@ typedef struct {
 	int bust; //1 if bust, 0 if not
 	int nat_bj; // 1 == bj, 0 == no bj
 	char name[20]; // name for hand
+	int stop; //stops drawing cards if 1
 } Hand;
 
 // Constants.
@@ -80,6 +81,11 @@ void check_bust(Hand *hand);
 // Returns the updated dealer hand.
 void card_to_hand(Deck *deck, Hand *hand);
 
+//function to display cards as actual cards
+//prints player hand first then dealer hand
+//doesn't update, just for display
+void print_hands(Hand *hand);
+
 // Compares the dealer's and player's hand values to determine the winner.
 // Parameters:
 // - bet_amount: The player's bet amount.
@@ -97,6 +103,7 @@ void clear_hands(Hand *player_hand, Hand *dealer_hand);
 //function to catch highest amount of cash
 void highest_cash(int cash, Score *score);
 
+//TESTING FUNCTION
 // Prints all stats of the player's and dealer's hands.
 // Parameters:
 // - player_hand: The player's hand.
