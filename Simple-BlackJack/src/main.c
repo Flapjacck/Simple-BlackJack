@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
 		curr_score.scash = cash;
 
 		FILE *file;
-		open_file(&file, "score.txt", "r+");
+		open_file(&file, "score.txt", "r");
 		read_file_highscores(file, &high_score);
 
 		// User input for number of decks
@@ -108,6 +108,7 @@ int main(int argc, char *argv[]) {
 						cash -= bet_amount;
 						bet_amount *= 2;
 					}
+					//Checks for 6 cards
 					if (player_hand.num_cards == 6 && player_hand.bust != 1) {
 						player_hand.stop = 1;
 						dealer_hand.bust = 1;
@@ -123,12 +124,19 @@ int main(int argc, char *argv[]) {
 					dealer_hand.cards[0].hidden = 0;
 					print_hands(&dealer_hand);
 					print_hands(&player_hand);
+					if (dealer_hand.value >= 17) {
+						dealer_hand.stop = 1;
+					}
 
-					while (dealer_hand.stop != 1 && dealer_hand.value < 17) {
+					while (dealer_hand.stop != 1) {
 						check_bust(&dealer_hand);
 						card_to_hand(&deck, &dealer_hand);
 						print_hands(&dealer_hand);
 						print_hands(&player_hand);
+						if (dealer_hand.value >= 17) {
+							dealer_hand.stop = 1;
+						}
+
 					}
 				}
 
@@ -150,9 +158,8 @@ int main(int argc, char *argv[]) {
 			bet_amount = 0;
 			// Check for quit input
 			if (cash != 0) {
-
 				printf("Press 'q' to quit or any other key to continue: ");
-				scanf(" %c", &input); // Note the space before %c to consume any leftover whitespace
+				scanf(" %c", &input); //space before %c is important
 				if (input == 'q' || input == 'Q') {
 					done = 'y';
 					break;

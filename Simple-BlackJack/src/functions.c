@@ -271,6 +271,7 @@ void clear_hands(Hand *player_hand, Hand *dealer_hand) {
 	dealer_hand->value = 0;
 	dealer_hand->bust = 0;
 	dealer_hand->nat_bj = 0;
+	dealer_hand->stop = 0;
 
 }
 
