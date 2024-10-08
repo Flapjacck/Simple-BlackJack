@@ -17,7 +17,7 @@
 //constants
 const char *cardFaces[] = { "Ace", "Two", "Three", "Four", "Five", "Six",
 		"Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King" };
-const char *cardSuits[] = { "Spades", "Hearts", "Clubs", "Diamonds" };
+const char *cardSuits[] = { "♠", "♥", "♣", "♦" };
 
 //functions
 void init_decks(Deck *deck, int num_decks) {
@@ -27,17 +27,35 @@ void init_decks(Deck *deck, int num_decks) {
 
 	int deck_index = 0; // Index to track position in the decks array
 	for (int d = 0; d < num_decks; d++) {
-		for (int f = 0; f < 13; f++) {
+
+		for (int f = 1; f < 14; f++) {
+
 			for (int s = 0; s < 4; s++) {
+
 				deck->cards[deck_index].face = cardFaces[f];
 				deck->cards[deck_index].suit = cardSuits[s];
 				if (f == 0) {
+
 					deck->cards[deck_index].value = 11; // Ace
 					deck->cards[deck_index].is_ace = 1;
+					deck->cards[deck_index].sign = "A";
 				} else if (f >= 9) {
+					if (f == 9) {
+						deck->cards[deck_index].sign = "T";
+					} else if (f == 10) {
+						deck->cards[deck_index].sign = "J";
+					} else if (f == 11) {
+						deck->cards[deck_index].sign = "Q";
+					} else {
+						deck->cards[deck_index].sign = "K";
+					}
+
 					deck->cards[deck_index].value = 10; // Jacks, Queens, and Kings
 				} else {
+
 					deck->cards[deck_index].value = f + 1; // Two through Ten
+					deck->cards[deck_index].sign = malloc(3 * sizeof(char)); // Allocate memory for the string
+					sprintf(deck->cards[deck_index].sign, "%d", (f + 1)); // Convert the integer to a string
 				}
 				deck_index++; // Move to the next card in the array
 			}
@@ -64,7 +82,7 @@ void shuffle_deck(Deck *deck) {
 
 void check_and_shuffle(Deck *deck) {
 	if (deck->size > 0 && deck->cards[deck->size - 1].face == NULL) {
-		printf("**Cut card reached, shuffling deck**");
+		printf("**Cut card reached, shuffling deck**\n");
 		shuffle_deck(deck);
 		cut_card(deck);
 	}
@@ -75,10 +93,10 @@ void cut_card(Deck *deck) {
 	srand(time(NULL));
 
 	// Generate a random index to place the cut card
-	int cut_index = rand() % ((deck->size / 2) - 4 + 1) + 4;
+	int cut_index = rand() % (deck->size / 2) + 5;
 
 	// Create a cut card with NULL values
-	Card cut_card = { NULL, NULL, 0 };
+	Card cut_card = { NULL, NULL, 0, 0 };
 
 	// Place the cut card at the random index
 	deck->cards[cut_index] = cut_card;
@@ -90,6 +108,7 @@ void cut_card(Deck *deck) {
 Card deal_card(Deck *deck) {
 	if (deck->size == 0) {
 		// Handle the case when the deck is empty (optional)
+		printf("Deck is empty\n");
 	}
 
 	// Call the check_and_shuffle function before dealing a card

@@ -34,6 +34,7 @@ int main(int argc, char *argv[]) {
 
 	//initialize done and Welcome print
 	done = 'n';
+	printf("--------------------------------------------------------\n");
 	printf("Welcome to Simple Blackjack!\n");
 
 	while (done != 'y') {
@@ -43,19 +44,19 @@ int main(int argc, char *argv[]) {
 		curr_score.scash = cash;
 
 		FILE *file;
-		open_file(&file, "score.txt", "r");
+		open_file(&file, "score.txt", "r+");
 		read_file_highscores(file, &high_score);
 
 		// User input for number of decks
 		int num_decks = 0;
-		printf("Enter the number of decks to use: ");
+		printf("\nEnter the number of decks to use: ");
 		scanf("%d", &num_decks);
 
 		// Initialize, shuffle deck and place cut card
 		Deck deck;
 		init_decks(&deck, num_decks);
 		shuffle_deck(&deck);
-		printf("**%d deck(s) initialized and shuffled**\n", num_decks);
+		printf("\n**%d deck(s) initialized and shuffled**\n", num_decks);
 		cut_card(&deck);
 
 		//sets player and dealer hand names
@@ -89,14 +90,6 @@ int main(int argc, char *argv[]) {
 				cash += bet_amount * 2.5;
 
 			} else {
-				//print player and dealer hands if no nat bj
-				printf("Player's hand: %s of %s and %s of %s\nTotal: %d\n",
-						player_hand.cards[0].face, player_hand.cards[0].suit,
-						player_hand.cards[1].face, player_hand.cards[1].suit,
-						player_hand.value);
-				printf("Dealer's visible card: %s of %s\n",
-						dealer_hand.cards[1].face, dealer_hand.cards[1].suit);
-
 				//run insurance function
 				if (dealer_hand.cards[1].value == 11) {
 					cash -= (bet_amount / 2);
@@ -106,25 +99,36 @@ int main(int argc, char *argv[]) {
 				}
 
 				//run functions for player
-				while (player_hand.bust != 1 && player_hand.num_cards != -1
+				while (player_hand.bust != 1 && player_hand.stop != 1
 						&& dealer_hand.nat_bj != 1) {
 					player_choice(&deck, &player_hand, cash, bet_amount);
+
 					//double down
 					if (player_hand.d == 1) {
 						cash -= bet_amount;
 						bet_amount *= 2;
 					}
-					printf("%s total: %d\n", player_hand.name,
-							player_hand.value);
+					if (player_hand.num_cards == 6 && player_hand.bust != 1) {
+						player_hand.stop = 1;
+						dealer_hand.bust = 1;
+					}
+					if (player_hand.stop != 1) {
+						print_hands(&dealer_hand);
+						print_hands(&player_hand);
+					}
 				}
 				//run dealer function
-				if (player_hand.num_cards == -1 && player_hand.bust != 1) {
+				if (player_hand.stop == 1) {
 					printf("Dealer turns over his hidden card\n");
-					printf("%s of %s\nTotal: %d\n", dealer_hand.cards[0].face,
-							dealer_hand.cards[0].suit, dealer_hand.value);
-					while (dealer_hand.bust != 1 && dealer_hand.value < 17) {
+					dealer_hand.cards[0].hidden = 0;
+					print_hands(&dealer_hand);
+					print_hands(&player_hand);
+
+					while (dealer_hand.stop != 1 && dealer_hand.value < 17) {
 						check_bust(&dealer_hand);
 						card_to_hand(&deck, &dealer_hand);
+						print_hands(&dealer_hand);
+						print_hands(&player_hand);
 					}
 				}
 
