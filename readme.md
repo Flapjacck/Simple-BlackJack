@@ -17,14 +17,14 @@
   git clone https://github.com/Flapjacck/Simple-BlackJack.git
 ```
 
-2. Change directory to inside "*Simple-BlackJack*" folder:
+2. Change directory to inside "\Simple-BlackJack\\" folder:
 ```
   cd simple-blackjack
 ```
 
-3. Run the make file (can launch from .exe after its made):
+3. Run the make file to compile the program:
 ```
-  make run
+  make
 ```
 For Mac users delete/comment these 2 lines of code on main.c before running make file
 ```
@@ -33,6 +33,10 @@ line 16 | #include <windows.h>
 ```
 line 37 | SetConsoleOutputCP(CP_UTF8);
 ```
+```
+Line 52 | Replace "simple-blackjack/score.txt" with ("Desktop/Simple-BlackJack/Simple-BlackJack/score.txt")
+```
+4. Open "*SimpleBJ.exe*" to run the program
 
 ## How to Play BlackJack
 
