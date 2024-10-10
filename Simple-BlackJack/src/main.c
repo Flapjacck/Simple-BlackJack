@@ -69,6 +69,9 @@ int main() {
 		strcpy(player_hand.name, "Player");
 		strcpy(dealer_hand.name, "Dealer");
 
+		// reset highest cash
+		curr_score.hcash = 0;
+
 		//game loop
 		while (cash > 0) {
 			//reset hands
