@@ -26,7 +26,7 @@
 ```
   make
 ```
-For Mac users delete/comment these 2 lines of code on main.c before running make file
+For Mac users delete/comment these 2 lines of code and replace 1 line on main.c before running make file:
 ```
 line 16 | #include <windows.h>
 ```
@@ -34,7 +34,7 @@ line 16 | #include <windows.h>
 line 37 | SetConsoleOutputCP(CP_UTF8);
 ```
 ```
-Line 52 | Replace "simple-blackjack/score.txt" with ("Desktop/Simple-BlackJack/Simple-BlackJack/score.txt")
+Line 52 | Replace "simple-blackjack/score.txt" with (EX. "Desktop/Simple-BlackJack/Simple-BlackJack/score.txt")
 ```
 4. Open "*SimpleBJ.exe*" to run the program
 
@@ -42,13 +42,14 @@ Line 52 | Replace "simple-blackjack/score.txt" with ("Desktop/Simple-BlackJack/S
 
 - Player attempts to beat the dealer by getting a count as close to 21 as possible, without going over 21 or having a higher count than the dealer
 - Dealer stands on 17 - 21
+- Instant win when Player is dealt six cards
 - Player win pays 1:1 | Natural BlackJack pays 3:2 | Insurance pays 2:1
 
 ## F.A.Q
 
 Q: Make file gives a error "#include <windows.h> not found"
 
-A: Most likely your on mac and havent deleted the necessary code (check instalation step #3)
+A: Most likely your on Mac and havent deleted the necessary code (check instalation step #3)
 
    
 ## Authors

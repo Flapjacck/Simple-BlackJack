@@ -59,6 +59,7 @@ void deal_initial_cards(Deck *deck, Hand *player_hand, Hand *dealer_hand) {
 	dealer_hand->value += first_dealer_card.value;
 	dealer_hand->num_cards++;
 	dealer_hand->cards[0].hidden = 1;
+	printf("Dealt Dealers hidden card...\n");
 
 	// Deal the second card to the player
 	card_to_hand(deck, player_hand);
