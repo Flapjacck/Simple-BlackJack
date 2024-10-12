@@ -54,5 +54,5 @@ A: Most likely your on Mac and havent deleted the necessary code (check instalat
    
 ## Authors
 
-- [@Flapjacck](https://www.github.com/Flapjacck) | If you have any feedback, please reach out me on my [Twitter](https://x.com/SpennGK)
+- [@Flapjacck](https://www.github.com/Flapjacck) | If you have any feedback, please reach out to me on my [X](https://x.com/SpennGK)
 - [@boomboom135](https://www.github.com/boomboom135)
