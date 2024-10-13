@@ -13,7 +13,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 #include "functions.h"
 #include "deck.h"
@@ -34,7 +36,9 @@ int main() {
 	setbuf(stdout, NULL);
 
 	// Set console output to UTF-8
+#ifdef _WIN32
 	SetConsoleOutputCP(CP_UTF8);
+#endif
 
 	//initialize done and Welcome print
 	done = 'n';
@@ -49,7 +53,7 @@ int main() {
 
 		//read the file
 		FILE *file;
-		char *file_path = "simple-blackjack/score.txt";
+		char *file_path = "Simple-BlackJack/score.txt";
 		open_file(&file, file_path, "r");
 		read_file_highscores(file, &high_score);
 
