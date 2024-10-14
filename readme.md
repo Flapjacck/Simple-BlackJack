@@ -26,17 +26,13 @@
 ```
   make
 ```
-For Mac users delete/comment these 2 lines of code and replace 1 line on main.c before running make file:
-```
-line 16 | #include <windows.h>
-```
-```
-line 37 | SetConsoleOutputCP(CP_UTF8);
-```
+
+4. Open "*SimpleBJ.exe*" to run the program
+
+- The "*score.txt*" file location is offset if you are on Mac. To fix this replace the line with your local "*score.txt*" file path:
 ```
 Line 52 | Replace "simple-blackjack/score.txt" with (EX. "Desktop/Simple-BlackJack/Simple-BlackJack/score.txt")
 ```
-4. Open "*SimpleBJ.exe*" to run the program
 
 ## How to Play BlackJack
 
