@@ -129,6 +129,10 @@ int main() {
 						print_hands(&dealer_hand);
 						print_hands(&player_hand);
 					}
+					if (player_hand.bust == 1) {
+						player_hand.stop = 1;
+						dealer_hand.bust = 1;
+					}
 				}
 				//run dealer function
 				if (player_hand.stop == 1) {
