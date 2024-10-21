@@ -29,9 +29,9 @@
 
 4. Open "*SimpleBJ.exe*" to run the program
 
-- The "*score.txt*" file location is offset if you are on Mac. To fix this replace the line with your local "*score.txt*" file path:
+- The "*score.txt*" file location is offset if you are on Mac. To fix this replace line 56 in "*main.c*" with your local "*score.txt*" file path:
 ```
-Line 52 | Replace "simple-blackjack/score.txt" with (EX. "Desktop/Simple-BlackJack/Simple-BlackJack/score.txt")
+Line 56 | Replace "simple-blackjack/score.txt" with (EX. "Desktop/Simple-BlackJack/Simple-BlackJack/score.txt")
 ```
 
 ## How to Play BlackJack
