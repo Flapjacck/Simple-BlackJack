@@ -53,7 +53,7 @@ int main() {
 
 		//read the file
 		FILE *file;
-		char *file_path = "Simple-BlackJack/score.txt";
+		char *file_path = "Desktop/BJ-Project/Simple-BlackJack/score.txt";
 		open_file(&file, file_path, "r");
 		read_file_highscores(file, &high_score);
 
@@ -128,6 +128,10 @@ int main() {
 					if (player_hand.stop != 1) {
 						print_hands(&dealer_hand);
 						print_hands(&player_hand);
+					}
+					if (player_hand.bust == 1) {
+						player_hand.stop = 1;
+						dealer_hand.bust = 1;
 					}
 				}
 				//run dealer function
