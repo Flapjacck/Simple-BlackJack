@@ -53,7 +53,7 @@ int main() {
 
 		//read the file
 		FILE *file;
-		char *file_path = "score.txt";
+		char *file_path = "Simple-BlackJack/score.txt";
 		open_file(&file, file_path, "r");
 		read_file_highscores(file, &high_score);
 
